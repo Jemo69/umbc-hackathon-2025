@@ -61,41 +61,9 @@ export const clearChatSessionMessages = mutation({
   },
 });
 
-export const sendChatMessage = action({
-  args: {
-    message: v.string(),
-    sessionId: v.optional(v.id("chatSessions")),
-  },
-  handler: async (
-    ctx,
-    args
-  ): Promise<{ sessionId: Id<"chatSessions">; message: string }> => {
-    const user = await getOrCreateUser(ctx);
+import { sendChatMessage } from "./ai";
 
-    let sessionId = args.sessionId;
-    if (!sessionId) {
-      sessionId = await ctx.runMutation(api.chat.createChatSession, {
-        title: args.message.substring(0, 40),
-      });
-    }
-
-    await ctx.runMutation(api.chat.addChatMessage, {
-      message: args.message,
-      isViewer: true,
-      sessionId,
-    });
-
-    // Mock AI Response
-    const mockMessage = "This is a mock response from the Edutron Assistant.";
-    await ctx.runMutation(api.chat.addChatMessage, {
-      message: mockMessage,
-      isViewer: false,
-      sessionId,
-    });
-
-    return { sessionId, message: mockMessage };
-  },
-});
+export { sendChatMessage };
 
 // Chat sessions APIs
 export const getChatSessions = query({
