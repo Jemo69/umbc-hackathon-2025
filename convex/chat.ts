@@ -280,9 +280,9 @@ function extractAvailableMinutes(message: string): number | undefined {
   return undefined;
 }
 
-export const sendChatMessage: any = action({
+export const sendChatMessage = action({
   args: { message: v.string(), sessionId: v.optional(v.id("chatSessions")) },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<any> => {
     const user = await getOrCreateCurrentUser(ctx);
 
     // Ensure a session exists (auto-create if not provided)
