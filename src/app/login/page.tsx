@@ -55,7 +55,6 @@ function LoginForm() {
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("password", data.password);
-      formData.append("flow", "signIn");
 
       await signIn("password", formData);
       await storeUser();
